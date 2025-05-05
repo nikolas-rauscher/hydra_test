@@ -23,7 +23,7 @@ tqdm
 gensim
 sentence-transformers
 umap-learn
-hdbscan==0.8.33
+hdbscan==0.8.40
 
 # --------- visualization --------- #
 matplotlib
