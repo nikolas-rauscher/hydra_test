@@ -8,6 +8,27 @@ torchmetrics>=0.11.4
 hydra-core==1.3.2
 hydra-colorlog==1.2.0
 hydra-optuna-sweeper==1.2.0
+hydra-submitit-launcher==1.2.0
+
+# --------- data processing --------- #
+pandas
+numpy
+scikit-learn
+nltk
+pyarrow
+duckdb
+tqdm
+
+# --------- topic modeling --------- #
+gensim
+sentence-transformers
+umap-learn
+hdbscan==0.8.33
+
+# --------- visualization --------- #
+matplotlib
+seaborn
+wordcloud
 
 # --------- loggers --------- #
 # wandb

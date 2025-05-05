@@ -1,0 +1,40 @@
+# @package _global_
+
+# experiment config for cross-lingual transfer from English to German
+defaults:
+  - override /data: scientific_papers
+  - override /model: t5_pretraining
+  - override /callbacks: default
+  - override /trainer: default
+  - override /logger: tensorboard
+
+# all parameters below will be merged with parameters from default configurations set above
+# this allows you to overwrite only specified parameters
+
+task_name: "cross_lingual_transfer"
+
+tags: ["cross-lingual", "german", "transfer-learning"]
+
+seed: 42
+
+trainer:
+  max_epochs: 5
+  accelerator: auto
+  devices: auto
+  precision: 16-mixed
+  gradient_clip_val: 1.0
+  accumulate_grad_batches: 4
+  val_check_interval: 0.5
+  
+model:
+  model_name: "t5-base"  # Will load from pretrained checkpoint
+  target_language: "german"
+  cross_lingual_method: "vocabulary_extension"
+  max_length: 512
+  learning_rate: 5e-5
+  weight_decay: 0.01
+  
+data:
+  batch_size: 4
+  num_workers: 4
+  language: "german" 

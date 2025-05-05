@@ -1,0 +1,42 @@
+# @package hydra.launcher
+_target_: hydra_plugins.hydra_submitit_launcher.submitit_launcher.SlurmLauncher
+
+# Ordner für Job-Dateien
+submitit_folder: ${hydra.sweep.dir}/.submitit/%j
+
+# Allgemeine Einstellungen
+timeout_min: 120  # 2 Stunden
+cpus_per_task: 4
+tasks_per_node: 1
+nodes: 1
+mem_gb: 16
+
+# GPU-Einstellungen
+gpus_per_node: 1
+
+# SLURM-Einstellungen
+name: ${hydra.job.name}
+partition: gpu
+qos: null
+comment: null
+constraint: null
+exclude: null
+
+# Weitere GPU-bezogene Einstellungen
+gres: gpu:1
+cpus_per_gpu: null
+gpus_per_task: null
+mem_per_gpu: null
+mem_per_cpu: null
+
+# Account-Einstellungen
+account: null
+
+# Fehlerbehandlung und Signale
+signal_delay_s: 120
+max_num_timeout: 0
+
+# Erweiterte Einstellungen
+additional_parameters: {}
+array_parallelism: 256
+setup: null 

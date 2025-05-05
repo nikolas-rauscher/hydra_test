@@ -1,0 +1,42 @@
+# @package _global_
+
+# experiment config for scientific paper topic modeling
+defaults:
+  - override /data: scientific_papers
+  - override /model: topic_modeling
+  - override /callbacks: default
+  - override /trainer: default
+  - override /logger: tensorboard
+  - override /hydra/launcher: submitit_slurm
+
+# all parameters below will be merged with parameters from default configurations set above
+# this allows you to overwrite only specified parameters
+
+tags: ["topic-modeling", "scientific-papers"]
+
+seed: 42
+
+trainer:
+  max_epochs: 5
+  accelerator: auto
+  devices: 1
+  gradient_clip_val: 0.5
+  accumulate_grad_batches: 2
+  
+model:
+  num_topics: 25
+  max_features: 25000
+  use_tfidf: True
+  n_top_words: 50
+  
+data:
+  batch_size: 16
+  num_workers: 4
+
+# Spezifische SLURM-Konfiguration für dieses Experiment überschreiben
+hydra:
+  launcher:
+    timeout_min: 120  # 2 Stunden
+    mem_gb: 16
+    gpus_per_node: 1
+    tasks_per_node: 1 

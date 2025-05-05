@@ -1,0 +1,11 @@
+_target_: src.data.cleaning.scientific_text_cleaner.ScientificTextCleaner
+
+remove_stopwords: True
+remove_numbers: False
+remove_punct: True
+lowercase: True
+lemmatize: True
+stem: False
+min_word_length: 3
+language: "english"
+custom_stopwords: ["et", "al", "fig", "figure", "table", "eq", "equation"] 

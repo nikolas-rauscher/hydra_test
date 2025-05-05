@@ -1,0 +1,8 @@
+_target_: src.data.scientific_parquet_datamodule.ScientificParquetDataModule
+data_dir: ${paths.scientific_papers_dir}
+batch_size: 32
+train_val_test_split: [90, 5, 5]  # More training data for topic modeling
+sample_size: 100000  # Sample size for DuckDB query
+max_docs: 100000  # Maximum documents to load
+num_workers: 8
+pin_memory: True 

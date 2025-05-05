@@ -1,0 +1,20 @@
+_target_: src.models.t5_pretraining_module.T5PretrainingModule
+
+# Model parameters
+model_name: "t5-base"
+max_length: 512
+learning_rate: 2e-5
+weight_decay: 0.01
+
+# T5 pretraining task parameters
+mlm_probability: 0.15
+span_length: 3
+pretraining_tasks: ["denoise", "summarize", "classify"]
+
+# Training parameters
+batch_size: 8
+gradient_accumulation_steps: 4
+max_epochs: 10
+
+# Compile model for PyTorch 2.0
+compile: false 

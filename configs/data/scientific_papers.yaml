@@ -1,0 +1,6 @@
+_target_: src.data.scientific_datamodule.ScientificPapersDataModule
+data_dir: ${paths.data_dir}/scientific_papers
+batch_size: 32
+train_val_test_split: [80, 10, 10]
+num_workers: 4
+pin_memory: True 

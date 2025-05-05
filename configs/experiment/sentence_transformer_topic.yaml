@@ -1,0 +1,48 @@
+# @package _global_
+
+# Experiment-Konfiguration für Topic Modeling mit Sentence Transformers
+defaults:
+  - override /data: scientific_parquet
+  - override /model: sentence_transformer_topic
+  - override /callbacks: default
+  - override /trainer: default
+  - override /logger: tensorboard
+  - override /hydra/launcher: submitit_slurm  # Verwende den Submitit SLURM Launcher
+
+# Parameter für die Überschreibung von Default-Konfigurationen
+tags: ["topic-modeling", "sentence-transformers", "scientific-papers"]
+
+seed: 42
+
+trainer:
+  max_epochs: 1  # Topic Modeling ist kein klassisches Training
+  accelerator: auto
+  devices: 1
+  precision: 16-mixed  # Mixed precision für schnellere Berechnungen
+  
+model:
+  embedding_model: "all-MiniLM-L6-v2"
+  min_cluster_size: 10
+  min_samples: 5
+  output_dir: ${paths.log_dir}/topic_modeling_results
+  
+data:
+  batch_size: 64
+  sample_size: 100000
+  max_docs: 100000
+  num_workers: 8
+
+# SLURM-Konfiguration
+hydra:
+  launcher:
+    timeout_min: 300                # 5 Stunden
+    mem_gb: 100                     # 100GB RAM
+    cpus_per_task: 8                # 8 CPUs
+    gpus_per_node: 1                # 1 GPU
+    tasks_per_node: 1
+    name: "topic_modeling"          # Job-Name
+    partition: ${oc.env:SLURM_PARTITION,gpu}
+    comment: "Topic Modeling with Sentence Transformers"
+    signal_delay_s: 120
+    max_num_timeout: 0
+    array_parallelism: 256 

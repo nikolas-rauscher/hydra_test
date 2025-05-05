@@ -1,0 +1,54 @@
+# @package _global_
+
+# Hyperparameter optimization for topic modeling with Optuna
+# Run: python train.py -m hparams_search=topic_modeling_optuna experiment=topic_modeling
+
+defaults:
+  - override /hydra/sweeper: optuna
+
+# Metric to optimize (lower perplexity is better for topic modeling)
+optimized_metric: "val_perplexity"
+
+# Hydra configuration
+hydra:
+  mode: "MULTIRUN"  # set hydra to multirun by default
+
+  sweeper:
+    _target_: hydra_plugins.hydra_optuna_sweeper.optuna_sweeper.OptunaSweeper
+
+    # storage URL to persist optimization results (optional)
+    storage: null
+
+    # name of the study (optional)
+    study_name: "topic_modeling_optimization"
+
+    # number of parallel workers
+    n_jobs: 1
+
+    # 'minimize' perplexity (lower is better for topic coherence)
+    direction: minimize
+
+    # total number of runs
+    n_trials: 30
+
+    # Optuna sampler configuration
+    sampler:
+      _target_: optuna.samplers.TPESampler
+      seed: 42
+      n_startup_trials: 10  # random sampling runs before optimization
+
+    # Define hyperparameter search space
+    params:
+      # Model parameters
+      model.num_topics: choice(5, 10, 15, 20, 25, 30, 40, 50)
+      model.max_features: choice(5000, 10000, 15000, 20000, 25000)
+      model.max_iter: choice(10, 20, 30, 50)
+      model.learning_method: choice("online", "batch")
+      model.use_tfidf: choice(true, false)
+      
+      # Data parameters
+      data.batch_size: choice(8, 16, 32, 64)
+      
+      # Trainer parameters
+      trainer.max_epochs: choice(3, 5, 10)
+      trainer.gradient_clip_val: interval(0.1, 1.0) 

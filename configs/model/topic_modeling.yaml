@@ -1,0 +1,17 @@
+_target_: src.models.topic_modeling_module.TopicModelingModule
+
+# Topic modeling parameters
+num_topics: 20
+max_features: 20000
+stop_words: "english"
+learning_method: "online"
+max_iter: 20
+random_state: 42
+n_top_words: 30
+use_tfidf: True
+
+# Optimizer parameters
+learning_rate: 0.001
+
+# Compile model for faster training with pytorch 2.0
+compile: false 

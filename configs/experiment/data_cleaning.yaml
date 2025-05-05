@@ -1,0 +1,31 @@
+# @package _global_
+
+# experiment config for scientific paper data cleaning
+defaults:
+  - override /data: scientific_papers
+  - override /data_cleaning: scientific_text
+  - override /callbacks: default
+  - override /trainer: default
+  - override /logger: tensorboard
+
+# all parameters below will be merged with parameters from default configurations set above
+# this allows you to overwrite only specified parameters
+
+tags: ["data-cleaning", "scientific-papers"]
+
+seed: 42
+
+data:
+  batch_size: 32
+  num_workers: 4
+
+data_cleaning:
+  remove_stopwords: True
+  remove_numbers: False
+  remove_punct: True
+  lowercase: True
+  lemmatize: True
+  stem: False
+  min_word_length: 3
+  language: "english"
+  custom_stopwords: ["et", "al", "fig", "figure", "table", "eq", "equation", "abstract", "introduction", "conclusion", "references", "bibliography"] 

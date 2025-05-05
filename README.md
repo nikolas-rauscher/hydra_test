@@ -1032,7 +1032,7 @@ Torchmetrics provides metrics for most use cases, like F1 score or confusion mat
 
 The style guide is available [here](https://pytorch-lightning.readthedocs.io/en/latest/starter/style_guide.html).<br>
 
-1. Be explicit in your init. Try to define all the relevant defaults so that the user doesn’t have to guess. Provide type hints. This way your module is reusable across projects!
+1. Be explicit in your init. Try to define all the relevant defaults so that the user doesn't have to guess. Provide type hints. This way your module is reusable across projects!
 
    ```python
    class LitModel(LightningModule):
@@ -1180,9 +1180,65 @@ Other useful repositories:
 
 - [jxpress/lightning-hydra-template-vertex-ai](https://github.com/jxpress/lightning-hydra-template-vertex-ai) - lightning-hydra-template integration with Vertex AI hyperparameter tuning and custom training job
 
-</details>
+## SLURM Jobs mit Hydra Submitit Launcher ausführen
 
-<br>
+Um Experimente auf dem SLURM-Cluster auszuführen, verwenden wir das Hydra Submitit Launcher Plugin. Diese Integration erlaubt das einfache Einreichen von Jobs direkt über die Hydra-Konfiguration.
+
+### Voraussetzungen
+
+Stelle sicher, dass das Plugin installiert ist:
+
+```bash
+pip install hydra-submitit-launcher
+```
+
+oder aktualisiere die conda-Umgebung:
+
+```bash
+conda env update -f environment.yaml
+```
+
+### Einzelnen Job ausführen
+
+Um einen einzelnen Job für ein definiertes Experiment auf dem Cluster auszuführen:
+
+```bash
+python src/train.py experiment=topic_modeling --multirun
+```
+
+Das `--multirun` Flag ist wichtig, damit Hydra den Submitit Launcher verwendet.
+
+### Hyperparameter-Optimierung
+
+Um mehrere Jobs mit verschiedenen Parametern zu starten:
+
+```bash
+# Verschiedene num_topics-Werte ausprobieren
+python src/train.py experiment=topic_modeling model.num_topics=10,20,30 --multirun
+
+# Optuna-basierte Hyperparameter-Optimierung durchführen
+python src/train.py -m experiment=topic_modeling hparams_search=topic_modeling_optuna
+```
+
+### Konfiguration anpassen
+
+Die SLURM-Konfiguration kann in jeder Experimentkonfiguration angepasst werden:
+
+```yaml
+# In configs/experiment/mein_experiment.yaml
+hydra:
+  launcher:
+    timeout_min: 120  # Zeit in Minuten
+    mem_gb: 32        # Speicher in GB
+    gpus_per_node: 2  # Anzahl GPUs pro Knoten
+    partition: gpu    # SLURM-Partition
+```
+
+Oder direkt auf der Kommandozeile:
+
+```bash
+python src/train.py experiment=topic_modeling hydra.launcher.partition=your_partition hydra.launcher.timeout_min=240 --multirun
+```
 
 ## License
 

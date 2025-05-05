@@ -1,0 +1,25 @@
+_target_: src.models.topic_modeling_sentence_transformer.TopicModelingSentenceTransformerModule
+
+# Embedding model
+embedding_model: "all-MiniLM-L6-v2"
+
+# UMAP parameters
+n_neighbors: 10
+min_dist: 0.1
+n_components: 2
+random_state: 42
+
+# HDBSCAN clustering parameters
+min_cluster_size: 5
+min_samples: 3
+cluster_selection_epsilon: 0.2
+
+# Topic modeling parameters
+n_topics_per_cluster: 1
+learning_rate: 1e-4
+
+# Output directory
+output_dir: "logs/topic_modeling_results"
+
+# Compile model for faster inference with pytorch 2.0
+compile: false 
