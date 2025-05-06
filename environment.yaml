@@ -23,6 +23,8 @@ channels:
 dependencies:
   - python=3.10
   - pytorch=2.*
+  - setuptools=78.*
+  - antlr4-python3-runtime=4.9.*
   - torchvision=0.*
   - lightning=2.*
   - torchmetrics=0.*
